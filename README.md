@@ -1,5 +1,5 @@
 # tapleau
-[IMAGE ALT](http://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/000/414/856/datas/gallery.jpg)](http://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/000/414/856/datas/gallery.jpg)
+![Alt text](http://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/000/414/856/datas/gallery.jpg)
 
 ## Inspiration
 We were blown away by the possibilities of Tanvas, a cool piece of tech that lets you modulate friction on a tablet's touch screen. The instant we tried it we knew that it would be an awesome learning tool - especially for kinesthetic learners. The Tanvas folks warned us that braille was not possible on their tablet, but we took the bull by the horns and tried to prove them wrong.
