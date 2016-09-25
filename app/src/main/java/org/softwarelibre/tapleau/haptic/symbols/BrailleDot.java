@@ -1,4 +1,4 @@
-package org.softwarelibre.tapleau.symbols;
+package org.softwarelibre.tapleau.haptic.symbols;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,13 +16,13 @@ import co.tanvas.haptics.service.model.HapticView;
 
 import org.softwarelibre.tapleau.R;
 
-public class BrailleCircle {
+public class BrailleDot {
     private HapticView mHapticView;
     private HapticTexture mHapticTexture;
     private HapticMaterial mHapticMaterial;
     private HapticSprite mHapticSprite;
 
-    public BrailleCircle(Context context, View view, double x, double y) {
+    public BrailleDot(Context context, View view, double x, double y) {
         System.out.println("Current view ID grabbed is " + String.valueOf(view.getId()));
         HapticServiceAdapter serviceAdapter = HapticApplication.getHapticServiceAdapter();
         try {

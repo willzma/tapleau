@@ -1,19 +1,20 @@
 package org.softwarelibre.tapleau;
 
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity implements BrailleFragment.OnFragmentInteractionListener {
+import org.softwarelibre.tapleau.haptic.fragments.BrailleFragment;
+import org.softwarelibre.tapleau.haptic.fragments.HapticFragment;
+import org.softwarelibre.tapleau.haptic.fragments.LanguageFragment;
+
+import co.tanvas.haptics.service.adapter.HapticServiceAdapterEventListener;
+
+public class MainActivity extends AppCompatActivity
+        implements BrailleFragment.OnFragmentInteractionListener, LanguageFragment.OnFragmentInteractionListener {
 
     public static String PACKAGE_NAME;
+    public HapticFragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +34,27 @@ public class MainActivity extends AppCompatActivity implements BrailleFragment.O
             }
 
             // Create a new fragment to be placed in the activity layout
-            BrailleFragment fragment = new BrailleFragment();
+            currentFragment = new BrailleFragment();
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
-            fragment.setArguments(getIntent().getExtras());
+            currentFragment.setArguments(getIntent().getExtras());
 
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, fragment).commit();
+                    .add(R.id.fragment_container, currentFragment).commit();
         }
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            // Register the activity as an event handler
+            HapticServiceAdapterEventListener listener =
+                    HapticServiceAdapterEventListener.obtain(this);
+            listener.addHandler(currentFragment);
+        } }
 
     @Override
     public void onFragmentInteraction(Uri uri) {

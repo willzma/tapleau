@@ -1,28 +1,26 @@
-package org.softwarelibre.tapleau;
+package org.softwarelibre.tapleau.haptic.fragments;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.softwarelibre.tapleau.symbols.BrailleCircle;
+import org.softwarelibre.tapleau.R;
 
-import co.tanvas.haptics.service.adapter.iHapticServiceAdapterEventHandler;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link BrailleFragment.OnFragmentInteractionListener} interface
+ * {@link LanguageFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link BrailleFragment#newInstance} factory method to
+ * Use the {@link LanguageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BrailleFragment extends Fragment implements iHapticServiceAdapterEventHandler {
+public class LanguageFragment extends HapticFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,11 +30,9 @@ public class BrailleFragment extends Fragment implements iHapticServiceAdapterEv
     private String mParam1;
     private String mParam2;
 
-    public BrailleCircle[][] circles = new BrailleCircle[3][2];
-
     private OnFragmentInteractionListener mListener;
 
-    public BrailleFragment() {
+    public LanguageFragment() {
         // Required empty public constructor
     }
 
@@ -46,11 +42,11 @@ public class BrailleFragment extends Fragment implements iHapticServiceAdapterEv
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BrailleFragment.
+     * @return A new instance of fragment LanguageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BrailleFragment newInstance(String param1, String param2) {
-        BrailleFragment fragment = new BrailleFragment();
+    public static LanguageFragment newInstance(String param1, String param2) {
+        LanguageFragment fragment = new LanguageFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -71,7 +67,7 @@ public class BrailleFragment extends Fragment implements iHapticServiceAdapterEv
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_braille, container, false);
+        return inflater.inflate(R.layout.fragment_language, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -99,46 +95,28 @@ public class BrailleFragment extends Fragment implements iHapticServiceAdapterEv
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public void serviceAdapterWasCreated(Intent intent) {
-        Log.d("tapleau", "Service adapter was successfully created.");
+
     }
 
     @Override
     public void serviceAdapterIsConnecting(Intent intent) {
-        Log.d("tapleau", "Service adapter is connecting...");
+
     }
 
     @Override
     public void serviceAdapterIsConnected(Intent intent) {
-        Log.d("tapleau", "Service adapter has successfully connected.");
-        double row = 382.7;
-        double col = 220.8;
-        for (int i = 0; i < circles.length; i++) {
-            for (int j = 0; j < circles[0].length; j++) {
-                String s = "button" + i + j;
-                circles[i][j] = new BrailleCircle(this.getActivity(), getView().findViewById(getResources().
-                        getIdentifier(s, "id", MainActivity.PACKAGE_NAME)), col, row);
-                col += 768;
-            }
 
-            row += 514.8;
-            col = 220.8;
-        }
     }
 
     @Override
     public void serviceAdapterIsDisconnecting(Intent intent) {
-        Log.d("tapleau", "Service adapter is disconnecting...");
+
     }
 
     @Override
     public void serviceAdapterIsDisconnected(Intent intent) {
-        Log.d("tapleau", "Service adapter has successfully disconnected.");
+
     }
 
     /**
