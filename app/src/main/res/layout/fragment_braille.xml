@@ -1,0 +1,79 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.softwarelibre.tapleau.BrailleFragment"
+    android:id="@+id/lexLuthor"
+    android:orientation="vertical"
+    android:clickable="true">
+
+    <LinearLayout android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <ImageView android:id="@+id/button00"
+            android:src="@drawable/black_circle_trans"
+            android:layout_height="160dp"
+            android:layout_width="160dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical|center_horizontal"
+            />
+
+        <ImageView android:id="@+id/button01"
+            android:src="@drawable/black_circle_trans"
+            android:layout_height="160dp"
+            android:layout_width="160dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical|center_horizontal"
+            />
+    </LinearLayout>
+
+    <LinearLayout android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <ImageView android:id="@+id/button10"
+            android:src="@drawable/black_circle_trans"
+            android:layout_height="160dp"
+            android:layout_width="160dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical|center_horizontal"
+            />
+
+        <ImageView android:id="@+id/button11"
+            android:src="@drawable/black_circle_trans"
+            android:layout_height="160dp"
+            android:layout_width="160dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical|center_horizontal"
+            />
+    </LinearLayout>
+
+    <LinearLayout android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <ImageView android:id="@+id/button20"
+            android:src="@drawable/black_circle_trans"
+            android:layout_height="160dp"
+            android:layout_width="160dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical|center_horizontal"
+            />
+
+        <ImageView android:id="@+id/button21"
+            android:src="@drawable/black_circle_trans"
+            android:layout_height="160dp"
+            android:layout_width="160dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical|center_horizontal"
+            />
+    </LinearLayout>
+</LinearLayout>
