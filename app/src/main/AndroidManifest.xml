@@ -4,7 +4,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/transparentSmall"
+        android:icon="@drawable/transparent_small"
         android:label="@string/app_name"
         android:name="co.tanvas.haptics.service.app.HapticApplication"
         android:supportsRtl="true"
@@ -12,6 +12,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

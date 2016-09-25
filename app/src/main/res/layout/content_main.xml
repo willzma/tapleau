@@ -7,27 +7,104 @@
     tools:context="org.softwarelibre.tapleau.MainActivity"
     android:orientation="vertical"
     android:clickable="true">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:background="#000000">
 
-    </LinearLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        tools:showIn="@layout/activity_main"
+        android:background="#157efb">
+
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageButton3"
+            android:visibility="gone"
+            android:layout_alignTop="@+id/editText2"
+            android:layout_alignBottom="@+id/editText2"
+            android:layout_toLeftOf="@+id/editText2"
+            android:src="@android:drawable/ic_menu_revert"
+            android:background="#157efb"
+            android:scaleType="fitCenter"
+            />
+
+        <EditText
+            android:layout_width="600dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText2"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:textSize="20dp"
+            android:drawableLeft="@android:drawable/ic_btn_speak_now"
+            android:singleLine="true"
+            android:text="" />
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageButton2"
+            android:visibility="gone"
+            android:layout_alignTop="@+id/editText2"
+            android:layout_alignBottom="@+id/editText2"
+            android:layout_toRightOf="@+id/editText2"
+            android:src="@android:drawable/ic_menu_search"
+            android:background="#157efb"
+            android:scaleType="fitCenter"
+            />
+
+        <EditText
+            android:layout_width="600dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText"
+            android:hint="Enter or speak text to translate!"
+            android:textSize="20dp"
+            android:drawableLeft="@android:drawable/ic_btn_speak_now"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="false"
+            android:singleLine="true" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageButton"
+            android:layout_alignTop="@+id/editText"
+            android:layout_alignBottom="@+id/editText"
+            android:layout_toRightOf="@+id/editText"
+            android:src="@android:drawable/ic_menu_search"
+            android:background="#157efb"
+            android:scaleType="fitCenter"
+            />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:layout_below="@+id/editText"
+            android:layout_alignStart="@+id/editText"
+            android:layout_alignEnd="@+id/editText" />
+
+    </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="0"
         android:clickable="true"
         android:hapticFeedbackEnabled="true">
 
     </FrameLayout>
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="#000000">
+        android:id="@+id/layout3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="0"
+        android:orientation="horizontal"
+        android:background="#157efb">
 
     </LinearLayout>
 </LinearLayout>

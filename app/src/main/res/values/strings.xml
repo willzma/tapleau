@@ -4,4 +4,16 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="languages_array">
+        <item>Braille</item>
+        <item>Korean</item>
+    </string-array>
+    <string name="primaryKey">9071700083754e76a7172a1acdc0829b</string>
+    <string name="add_subscription_key_tip_title">Subscription Key is Needed</string>
+    <string name="add_subscription_key_tip">Please put your subscription key to source file \"app/res/values/strings.xml\" to enable Face API calls.</string>
+
+    <string name="luisAppID">yourLuisAppID</string>
+    <string name="luisSubscriptionID">yourLuisSubscriptionID</string>
+    <string name="translate_client_id">TanvasHack</string>
+    <string name="translate_client_secret">BDcYHb2pDRU894yGoBeO1XeiMRsbLVWjOOmDoZ62Etk=</string>
 </resources>
