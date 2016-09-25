@@ -94,13 +94,6 @@ public class LanguageFragment extends HapticFragment {
         return inflater.inflate(R.layout.fragment_language, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
