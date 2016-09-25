@@ -83,316 +83,316 @@ public class SymbolUtilities {
         boolean[] lexLuthor = new boolean[6];
         switch(brailleC) {
             case '!': {
+                lexLuthor[2] = true;
                 lexLuthor[3] = true;
                 lexLuthor[4] = true;
-                lexLuthor[5] = true;
             }break;case '\"': {
+                lexLuthor[2] = true;
                 lexLuthor[3] = true;
                 lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case '#': {
-                lexLuthor[2] = true;
+                lexLuthor[1] = true;
+                lexLuthor[3] = true;
                 lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case '&': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
                 lexLuthor[2] = true;
-                lexLuthor[3] = true;
+                lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case '\'': {
-                lexLuthor[5] = true;
+                lexLuthor[4] = true;
             }break;case '(': {
-                lexLuthor[3] = true;
+                lexLuthor[2] = true;
+                lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case ')': {
+                lexLuthor[3] = true;
                 lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case '*': {
+                lexLuthor[3] = true;
                 lexLuthor[4] = true;
-                lexLuthor[5] = true;
             }break;case ',': {
-                lexLuthor[3] = true;
+                lexLuthor[2] = true;
             }break;case '-': {
+                lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case '.': {
+                lexLuthor[2] = true;
                 lexLuthor[3] = true;
-                lexLuthor[4] = true;
-                lexLuthor[6] = true;
+                lexLuthor[5] = true;
             }break;case '/': {
-                lexLuthor[2] = true;
-                lexLuthor[5] = true;
+                lexLuthor[1] = true;
+                lexLuthor[4] = true;
             }break;case '0': {
+                lexLuthor[1] = true;
                 lexLuthor[2] = true;
                 lexLuthor[3] = true;
-                lexLuthor[4] = true;
             }break;case '1': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
             }break;case '2': {
-                lexLuthor[1] = true;
-                lexLuthor[3] = true;
+                lexLuthor[0] = true;
+                lexLuthor[2] = true;
             }break;case '3': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
             }break;case '4': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
-                lexLuthor[4] = true;
+                lexLuthor[3] = true;
             }break;case '5': {
-                lexLuthor[1] = true;
-                lexLuthor[4] = true;
+                lexLuthor[0] = true;
+                lexLuthor[3] = true;
             }break;case '6': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
                 lexLuthor[2] = true;
-                lexLuthor[3] = true;
             }break;case '7': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
                 lexLuthor[2] = true;
                 lexLuthor[3] = true;
-                lexLuthor[4] = true;
             }break;case '8': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
+                lexLuthor[2] = true;
                 lexLuthor[3] = true;
-                lexLuthor[4] = true;
             }break;case '9': {
+                lexLuthor[1] = true;
                 lexLuthor[2] = true;
-                lexLuthor[3] = true;
             }break;case ':': {
+                lexLuthor[2] = true;
                 lexLuthor[3] = true;
-                lexLuthor[4] = true;
             }break;case ';': {
-                lexLuthor[3] = true;
-                lexLuthor[5] = true;
+                lexLuthor[2] = true;
+                lexLuthor[4] = true;
             }break;case '?': {
-                lexLuthor[3] = true;
-                lexLuthor[6] = true;
+                lexLuthor[2] = true;
+                lexLuthor[5] = true;
             }break;case 'A': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
             }break;case 'B': {
-                lexLuthor[1] = true;
-                lexLuthor[3] = true;
+                lexLuthor[0] = true;
+                lexLuthor[2] = true;
             }break;case 'C': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
             }break;case 'D': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
-                lexLuthor[4] = true;
+                lexLuthor[3] = true;
             }break;case 'E': {
-                lexLuthor[1] = true;
-                lexLuthor[4] = true;
+                lexLuthor[0] = true;
+                lexLuthor[3] = true;
             }break;case 'F': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
                 lexLuthor[2] = true;
-                lexLuthor[3] = true;
             }break;case 'G': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
                 lexLuthor[2] = true;
                 lexLuthor[3] = true;
-                lexLuthor[4] = true;
             }break;case 'H': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
+                lexLuthor[2] = true;
                 lexLuthor[3] = true;
-                lexLuthor[4] = true;
             }break;case 'I': {
+                lexLuthor[1] = true;
                 lexLuthor[2] = true;
-                lexLuthor[3] = true;
             }break;case 'J': {
+                lexLuthor[1] = true;
                 lexLuthor[2] = true;
                 lexLuthor[3] = true;
-                lexLuthor[4] = true;
             }break;case 'K': {
-                lexLuthor[1] = true;
-                lexLuthor[5] = true;
+                lexLuthor[0] = true;
+                lexLuthor[4] = true;
             }break;case 'L': {
-                lexLuthor[1] = true;
-                lexLuthor[3] = true;
-                lexLuthor[5] = true;
+                lexLuthor[0] = true;
+                lexLuthor[2] = true;
+                lexLuthor[4] = true;
             }break;case 'M': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
-                lexLuthor[5] = true;
+                lexLuthor[4] = true;
             }break;case 'N': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
+                lexLuthor[3] = true;
                 lexLuthor[4] = true;
-                lexLuthor[5] = true;
             }break;case 'O': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
+                lexLuthor[3] = true;
                 lexLuthor[4] = true;
-                lexLuthor[5] = true;
             }break;case 'P': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
                 lexLuthor[2] = true;
-                lexLuthor[3] = true;
-                lexLuthor[5] = true;
+                lexLuthor[4] = true;
             }break;case 'Q': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
                 lexLuthor[2] = true;
                 lexLuthor[3] = true;
                 lexLuthor[4] = true;
-                lexLuthor[5] = true;
             }break;case 'R': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
+                lexLuthor[2] = true;
                 lexLuthor[3] = true;
                 lexLuthor[4] = true;
-                lexLuthor[5] = true;
             }break;case 'S': {
+                lexLuthor[1] = true;
                 lexLuthor[2] = true;
-                lexLuthor[3] = true;
-                lexLuthor[5] = true;
+                lexLuthor[4] = true;
             }break;case 'T': {
+                lexLuthor[1] = true;
                 lexLuthor[2] = true;
                 lexLuthor[3] = true;
                 lexLuthor[4] = true;
-                lexLuthor[5] = true;
             }break;case 'U': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
+                lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case 'V': {
-                lexLuthor[1] = true;
-                lexLuthor[3] = true;
+                lexLuthor[0] = true;
+                lexLuthor[2] = true;
+                lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case 'W': {
+                lexLuthor[1] = true;
                 lexLuthor[2] = true;
                 lexLuthor[3] = true;
-                lexLuthor[4] = true;
-                lexLuthor[6] = true;
+                lexLuthor[5] = true;
             }break;case 'X': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
+                lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case 'Y': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
+                lexLuthor[3] = true;
                 lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case 'Z': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
+                lexLuthor[3] = true;
                 lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case 'a': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
             }break;case 'b': {
-                lexLuthor[1] = true;
-                lexLuthor[3] = true;
+                lexLuthor[0] = true;
+                lexLuthor[2] = true;
             }break;case 'c': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
             }break;case 'd': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
-                lexLuthor[4] = true;
+                lexLuthor[3] = true;
             }break;case 'e': {
-                lexLuthor[1] = true;
-                lexLuthor[4] = true;
+                lexLuthor[0] = true;
+                lexLuthor[3] = true;
             }break;case 'f': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
                 lexLuthor[2] = true;
-                lexLuthor[3] = true;
             }break;case 'g': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
                 lexLuthor[2] = true;
                 lexLuthor[3] = true;
-                lexLuthor[4] = true;
             }break;case 'h': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
+                lexLuthor[2] = true;
                 lexLuthor[3] = true;
-                lexLuthor[4] = true;
             }break;case 'i': {
+                lexLuthor[1] = true;
                 lexLuthor[2] = true;
-                lexLuthor[3] = true;
             }break;case 'j': {
+                lexLuthor[1] = true;
                 lexLuthor[2] = true;
                 lexLuthor[3] = true;
-                lexLuthor[4] = true;
             }break;case 'k': {
-                lexLuthor[1] = true;
-                lexLuthor[5] = true;
+                lexLuthor[0] = true;
+                lexLuthor[4] = true;
             }break;case 'l': {
-                lexLuthor[1] = true;
-                lexLuthor[3] = true;
-                lexLuthor[5] = true;
+                lexLuthor[0] = true;
+                lexLuthor[2] = true;
+                lexLuthor[4] = true;
             }break;case 'm': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
-                lexLuthor[5] = true;
+                lexLuthor[4] = true;
             }break;case 'n': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
+                lexLuthor[3] = true;
                 lexLuthor[4] = true;
-                lexLuthor[5] = true;
             }break;case 'o': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
+                lexLuthor[3] = true;
                 lexLuthor[4] = true;
-                lexLuthor[5] = true;
             }break;case 'p': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
                 lexLuthor[2] = true;
-                lexLuthor[3] = true;
-                lexLuthor[5] = true;
+                lexLuthor[4] = true;
             }break;case 'q': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
                 lexLuthor[2] = true;
                 lexLuthor[3] = true;
                 lexLuthor[4] = true;
-                lexLuthor[5] = true;
             }break;case 'r': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
+                lexLuthor[2] = true;
                 lexLuthor[3] = true;
                 lexLuthor[4] = true;
-                lexLuthor[5] = true;
             }break;case 's': {
+                lexLuthor[1] = true;
                 lexLuthor[2] = true;
-                lexLuthor[3] = true;
-                lexLuthor[5] = true;
+                lexLuthor[4] = true;
             }break;case 't': {
+                lexLuthor[1] = true;
                 lexLuthor[2] = true;
                 lexLuthor[3] = true;
                 lexLuthor[4] = true;
-                lexLuthor[5] = true;
             }break;case 'u': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
+                lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case 'v': {
-                lexLuthor[1] = true;
-                lexLuthor[3] = true;
+                lexLuthor[0] = true;
+                lexLuthor[2] = true;
+                lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case 'w': {
+                lexLuthor[1] = true;
                 lexLuthor[2] = true;
                 lexLuthor[3] = true;
-                lexLuthor[4] = true;
-                lexLuthor[6] = true;
+                lexLuthor[5] = true;
             }break;case 'x': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
+                lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case 'y': {
+                lexLuthor[0] = true;
                 lexLuthor[1] = true;
-                lexLuthor[2] = true;
+                lexLuthor[3] = true;
                 lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case 'z': {
-                lexLuthor[1] = true;
+                lexLuthor[0] = true;
+                lexLuthor[3] = true;
                 lexLuthor[4] = true;
                 lexLuthor[5] = true;
-                lexLuthor[6] = true;
             }break;case '~': {
-                lexLuthor[5] = true;
+                lexLuthor[4] = true;
             }break;
         }
 
