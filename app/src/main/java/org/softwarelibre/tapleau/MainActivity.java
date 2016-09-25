@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -182,6 +183,9 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
             public void onAnimationStart(Animation arg0) {
                 Spinner spin = (Spinner) findViewById(R.id.spinner);
                 spin.setVisibility(View.GONE);
+                ImageView iv = ((ImageView) findViewById(R.id.imageView3));
+                iv.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -249,6 +253,8 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
 
             @Override
             public void onAnimationEnd(Animation arg0) {
+                ImageView iv = ((ImageView) findViewById(R.id.imageView3));
+                iv.setVisibility(View.GONE);
                 EditText edited = ((EditText) findViewById(R.id.editText2));
                 edited.setVisibility(View.INVISIBLE);
                 EditText tv = ((EditText) findViewById(R.id.editText));
