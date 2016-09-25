@@ -133,24 +133,23 @@ public class BrailleFragment extends HapticFragment {
                             getIdentifier(identifier, "id", MainActivity.PACKAGE_NAME));
                     circles[i][j] = new BrailleDot(this.getActivity(), currentDotView, col, row);
                     currentDotView.setImageResource(R.drawable.graydot);
-
-                    currentDotView.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            ((ImageView) v).setImageResource(R.drawable.bluedot);
-                            return true;
-                        }
-                    });
-
                     currentDotView.setOnDragListener(new View.OnDragListener() {
 
                         @Override
                         public boolean onDrag(View v, DragEvent event) {
                             ((ImageView) v).setImageResource(R.drawable.bluedot);
-                            return true;
+                            return false;
                         }
                     });
-                }
+                    currentDotView.setOnTouchListener(new View.OnTouchListener() {
+
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            ((ImageView) v).setImageResource(R.drawable.bluedot);
+                            return false;
+                        }
+                    });
+                    }
                 col += 768;
             }
 

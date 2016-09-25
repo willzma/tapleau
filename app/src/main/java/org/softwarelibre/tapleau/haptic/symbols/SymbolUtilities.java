@@ -79,7 +79,7 @@ public class SymbolUtilities {
         return bmp;
     }
 
-    public boolean[] textToBraille(char brailleC) {
+    public static boolean[] textToBraille(char brailleC) {
         boolean[] lexLuthor = new boolean[6];
         switch(brailleC) {
             case '!': {

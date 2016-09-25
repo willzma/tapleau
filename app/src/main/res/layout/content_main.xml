@@ -106,5 +106,13 @@
         android:orientation="horizontal"
         android:background="#157efb">
 
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="→"
+            android:textAllCaps="true"
+            android:textStyle="bold"/>
+
     </LinearLayout>
 </LinearLayout>

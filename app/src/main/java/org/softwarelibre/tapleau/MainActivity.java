@@ -1,6 +1,7 @@
 package org.softwarelibre.tapleau;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import com.microsoft.cognitiveservices.speechrecognition.SpeechRecognitionServic
 import org.softwarelibre.tapleau.haptic.fragments.BrailleFragment;
 import org.softwarelibre.tapleau.haptic.fragments.HapticFragment;
 import org.softwarelibre.tapleau.haptic.fragments.LanguageFragment;
+import org.softwarelibre.tapleau.haptic.symbols.SymbolUtilities;
 
 import java.util.concurrent.TimeUnit;
 
@@ -52,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
     MainActivity.FinalResponseStatus isReceivedResponse = MainActivity.FinalResponseStatus.NotReceived;
     EditText searchText;
     String translatedText;
+    String currentWord;
+    String currentLanguage;
+    int wordPointer = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +89,51 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
                 if(spinner.getSelectedItem().equals("Korean")) {
                     new MyAsyncTask() {
                         protected void onPostExecute(Boolean result) {
-                            searchText.setText(translatedText);
+                            searchText.setHint(translatedText);
+                            searchText.setText("");
+                            currentWord = translatedText;
+                            currentLanguage = "Korean";
                         }
                     }.execute(searchText.getText().toString());
+                } else if (spinner.getSelectedItem().equals("Braille")) {
+                    String s = searchText.getText().toString();
+                    searchText.setHint(searchText.getText());
+                    searchText.setText("");
+                    Typeface myTypeFace = Typeface.createFromAsset(getAssets(), "fonts/braille.ttf");
+                    currentWord = s;
+                    currentLanguage = "Braille";
+                }
+            }
+        });
+
+        final Button nextButton = (Button) findViewById(R.id.nextButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (wordPointer < currentWord.length()) {
+                    switch(currentLanguage) {
+                        case "Braille": {
+                            currentFragment = BrailleFragment.newInstance(SymbolUtilities.textToBraille(currentWord.charAt(wordPointer)));
+                            getSupportFragmentManager().beginTransaction()
+                                    .add(R.id.fragment_container, currentFragment).commit();
+                            wordPointer++;
+                        }break;case "Korean": {
+                            currentFragment = LanguageFragment.newInstance(String.valueOf(currentWord.charAt(wordPointer)));
+                            getSupportFragmentManager().beginTransaction()
+                                    .add(R.id.fragment_container, currentFragment).commit();
+                            wordPointer++;
+                        }break;
+                    }
+                } else {
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 2);
+                    LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 5);
+                    LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+                    RelativeLayout layout1 = ((RelativeLayout) findViewById(R.id.layout1));
+                    FrameLayout layout2 = ((FrameLayout) findViewById(R.id.fragment_container));
+                    LinearLayout layout3 = ((LinearLayout) findViewById(R.id.layout3));
+                    layout1.setLayoutParams(lp);
+                    layout2.setLayoutParams(lp2);
+                    layout3.setLayoutParams(lp3);
                 }
             }
         });
@@ -104,11 +151,6 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
         Translate.setClientSecret(getString(R.string.translate_client_secret));
 
         searchText = (EditText) findViewById(R.id.editText);
-
-
-
-
-
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -177,8 +219,6 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
         think_you.startAnimation(slide);
         search.startAnimation(slide);
         //slide.setFillEnabled(true);
-
-
     }
 
     public void performLineAnimation1reverse() {
@@ -229,8 +269,6 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
         think_you.startAnimation(slide);
         search.startAnimation(slide);
         //slide.setFillEnabled(true);
-
-
     }
 
     @Override
