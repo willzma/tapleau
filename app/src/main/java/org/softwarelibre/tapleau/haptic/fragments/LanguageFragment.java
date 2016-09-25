@@ -6,11 +6,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -67,6 +69,7 @@ public class LanguageFragment extends HapticFragment {
         LanguageFragment fragment = new LanguageFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, syllable);
+        fragment.syllable = syllable;
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,7 +81,7 @@ public class LanguageFragment extends HapticFragment {
         foreground = SymbolUtilities.drawTextToBitmap(getActivity(), syllable, Color.rgb(160, 160, 160), -1);
         background = SymbolUtilities.drawTextToBitmap(getActivity(), syllable, Color.rgb(21, 126, 251), -1);
         hapticMap = SymbolUtilities.getHapticMap(getActivity(), syllable);
-        iv =  (ImageView) getView().findViewById(R.id.tableau);
+        //iv = (ImageView) getView().findViewById(R.id.tableau);
         //iv.setImageBitmap(foreground);
         //iv.setImageBitmap(getHapticMap());
 
@@ -91,7 +94,22 @@ public class LanguageFragment extends HapticFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_language, container, false);
+        View view = inflater.inflate(R.layout.fragment_language, container, false);
+        view.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_MOVE:
+                        iv.setImageBitmap(SymbolUtilities.combineTwoBitmaps(background,
+                                SymbolUtilities.punchAHoleInABitmap(getActivity(),
+                                        ((BitmapDrawable) iv.getDrawable()).getBitmap(),
+                                        event.getRawX(),
+                                        event.getRawY())));
+                        break;
+                }
+                return true;
+            }
+        });
+        return view;
     }
 
     @Override
@@ -135,7 +153,7 @@ public class LanguageFragment extends HapticFragment {
             HapticView.Orientation orientation = HapticView.getOrientationFromAndroidDisplayRotation(rotation);
             mHapticView.setOrientation(orientation);
 
-            Bitmap hapticBitmap = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.white_circle);
+            Bitmap hapticBitmap = hapticMap;
             byte[] textureData = HapticTexture.createTextureDataFromBitmap(hapticBitmap);
 
             mHapticTexture = HapticTexture.create(serviceAdapter);
@@ -151,14 +169,15 @@ public class LanguageFragment extends HapticFragment {
             mHapticSprite = HapticSprite.create(serviceAdapter);
             mHapticSprite.setMaterial(mHapticMaterial);
             // Set the size and position of the haptic sprite to correspond to the view we created
-            mHapticSprite.setSize(324, 317);
-            mHapticSprite.setPosition(0, 512);
+            mHapticSprite.setSize(1536, 1280);
+            mHapticSprite.setPosition(0, 412);
             // Add the haptic sprite to the haptic view
             mHapticView.addSprite(mHapticSprite);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        iv = (ImageView) getView().findViewById(R.id.tableau);
         iv.setImageBitmap(foreground);
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -136,6 +137,15 @@ public class BrailleFragment extends HapticFragment {
                     currentDotView.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
+                            ((ImageView) v).setImageResource(R.drawable.bluedot);
+                            return true;
+                        }
+                    });
+
+                    currentDotView.setOnDragListener(new View.OnDragListener() {
+
+                        @Override
+                        public boolean onDrag(View v, DragEvent event) {
                             ((ImageView) v).setImageResource(R.drawable.bluedot);
                             return true;
                         }
