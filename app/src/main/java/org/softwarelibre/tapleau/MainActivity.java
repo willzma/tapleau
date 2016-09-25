@@ -36,10 +36,6 @@ public class MainActivity extends AppCompatActivity
             // Create a new fragment to be placed in the activity layout
             currentFragment = BrailleFragment.newInstance(true, true, true, true, true, false);
 
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
-            currentFragment.setArguments(getIntent().getExtras());
-
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, currentFragment).commit();
