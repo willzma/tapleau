@@ -14,6 +14,8 @@ import org.softwarelibre.tapleau.MainActivity;
 import org.softwarelibre.tapleau.R;
 import org.softwarelibre.tapleau.haptic.symbols.BrailleDot;
 
+import java.util.Arrays;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -23,9 +25,7 @@ import org.softwarelibre.tapleau.haptic.symbols.BrailleDot;
  * create an instance of this fragment.
  */
 public class BrailleFragment extends HapticFragment {
-    private static final String ENABLED_DOTS = "enabledDots";
-
-    private boolean[] enabledDots;
+    private boolean[] enabledDots = new boolean[6];
 
     public BrailleDot[][] circles = new BrailleDot[3][2];
 
@@ -41,25 +41,38 @@ public class BrailleFragment extends HapticFragment {
      *
      * @return A new instance of fragment BrailleFragment.
      */
-    public static BrailleFragment newInstance(boolean[] enabledDots) {
+    public static BrailleFragment newInstance(boolean b1, boolean b2, boolean b3, boolean b4, boolean b5, boolean b6) {
         BrailleFragment fragment = new BrailleFragment();
+        fragment.enabledDots[0] = b1;
+        fragment.enabledDots[1] = b2;
+        fragment.enabledDots[2] = b3;
+        fragment.enabledDots[3] = b4;
+        fragment.enabledDots[4] = b5;
+        fragment.enabledDots[5] = b6;
         Bundle args = new Bundle();
-        args.putBooleanArray("ENABLED_DOTS", enabledDots);
+        args.putBoolean("b1", b1);
+        args.putBoolean("b2", b2);
+        args.putBoolean("b3", b3);
+        args.putBoolean("b4", b4);
+        args.putBoolean("b5", b5);
+        args.putBoolean("b6", b6);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public static BrailleFragment newInstance(boolean b1, boolean b2, boolean b3, boolean b4, boolean b5, boolean b6) {
-        boolean[] booleans = {b1, b2, b3, b4, b5, b6};
-        return newInstance(booleans);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            enabledDots = getArguments().getBooleanArray(ENABLED_DOTS);
+            System.out.println("Does this shit even run");
+            enabledDots[0] = getArguments().getBoolean("b1");
+            enabledDots[1] = getArguments().getBoolean("b2");
+            enabledDots[2] = getArguments().getBoolean("b3");
+            enabledDots[3] = getArguments().getBoolean("b4");
+            enabledDots[4] = getArguments().getBoolean("b5");
+            enabledDots[5] = getArguments().getBoolean("b6");
         }
+        System.out.println(Arrays.toString(enabledDots));
     }
 
     @Override
