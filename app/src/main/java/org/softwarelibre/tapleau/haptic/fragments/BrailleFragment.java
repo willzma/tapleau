@@ -49,6 +49,11 @@ public class BrailleFragment extends HapticFragment {
         return fragment;
     }
 
+    public static BrailleFragment newInstance(boolean b1, boolean b2, boolean b3, boolean b4, boolean b5, boolean b6) {
+        boolean[] booleans = {b1, b2, b3, b4, b5, b6};
+        return newInstance(booleans);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
