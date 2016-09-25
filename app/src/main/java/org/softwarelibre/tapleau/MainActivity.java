@@ -2,8 +2,10 @@ package org.softwarelibre.tapleau;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -11,24 +13,45 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.memetix.mst.language.Language;
+import com.memetix.mst.translate.Translate;
+import com.microsoft.bing.speech.SpeechClientStatus;
+import com.microsoft.cognitiveservices.speechrecognition.DataRecognitionClient;
+import com.microsoft.cognitiveservices.speechrecognition.ISpeechRecognitionServerEvents;
+import com.microsoft.cognitiveservices.speechrecognition.MicrophoneRecognitionClient;
+import com.microsoft.cognitiveservices.speechrecognition.RecognitionResult;
+import com.microsoft.cognitiveservices.speechrecognition.RecognitionStatus;
+import com.microsoft.cognitiveservices.speechrecognition.SpeechRecognitionMode;
+import com.microsoft.cognitiveservices.speechrecognition.SpeechRecognitionServiceFactory;
 
 import org.softwarelibre.tapleau.haptic.fragments.BrailleFragment;
 import org.softwarelibre.tapleau.haptic.fragments.HapticFragment;
 import org.softwarelibre.tapleau.haptic.fragments.LanguageFragment;
 
+import java.util.concurrent.TimeUnit;
+
 import co.tanvas.haptics.service.adapter.HapticServiceAdapterEventListener;
 
-public class MainActivity extends AppCompatActivity
-        implements BrailleFragment.OnFragmentInteractionListener, LanguageFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements ISpeechRecognitionServerEvents, BrailleFragment.OnFragmentInteractionListener, LanguageFragment.OnFragmentInteractionListener {
 
     public static String PACKAGE_NAME;
     public HapticFragment currentFragment;
+    int m_waitSeconds = 0;
+    DataRecognitionClient dataClient = null;
+    MicrophoneRecognitionClient micClient = null;
+    MainActivity.FinalResponseStatus isReceivedResponse = MainActivity.FinalResponseStatus.NotReceived;
+    EditText searchText;
+    String translatedText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +62,7 @@ public class MainActivity extends AppCompatActivity
         PACKAGE_NAME = getApplicationContext().getPackageName();
 
         Spinner spin = (Spinner) findViewById(R.id.spinner);
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.languages_array, android.R.layout.simple_spinner_item);
@@ -57,6 +80,14 @@ public class MainActivity extends AppCompatActivity
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
                 performLineAnimation1();
+
+                if(spinner.getSelectedItem().equals("Korean")) {
+                    new MyAsyncTask() {
+                        protected void onPostExecute(Boolean result) {
+                            searchText.setText(translatedText);
+                        }
+                    }.execute(searchText.getText().toString());
+                }
             }
         });
 
@@ -66,6 +97,16 @@ public class MainActivity extends AppCompatActivity
                 performLineAnimation1reverse();
             }
         });
+
+
+
+        Translate.setClientId(getString(R.string.translate_client_id));
+        Translate.setClientSecret(getString(R.string.translate_client_secret));
+
+        searchText = (EditText) findViewById(R.id.editText);
+
+
+
 
 
 
@@ -138,8 +179,6 @@ public class MainActivity extends AppCompatActivity
         //slide.setFillEnabled(true);
 
 
-
-
     }
 
     public void performLineAnimation1reverse() {
@@ -192,7 +231,6 @@ public class MainActivity extends AppCompatActivity
         //slide.setFillEnabled(true);
 
 
-
     }
 
     @Override
@@ -210,4 +248,248 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    public enum FinalResponseStatus {NotReceived, OK, Timeout}
+
+    /**
+     * Gets the primary subscription key
+     */
+    public String getPrimaryKey() {
+        return this.getString(R.string.primaryKey);
+    }
+
+    /**
+     * Gets the LUIS application identifier.
+     *
+     * @return The LUIS application identifier.
+     */
+    private String getLuisAppId() {
+        return this.getString(R.string.luisAppID);
+    }
+
+    /**
+     * Gets the LUIS subscription identifier.
+     *
+     * @return The LUIS subscription identifier.
+     */
+    private String getLuisSubscriptionID() {
+        return this.getString(R.string.luisSubscriptionID);
+    }
+
+    /**
+     * Gets a value indicating whether or not to use the microphone.
+     *
+     * @return true if [use microphone]; otherwise, false.
+     */
+    /*
+    private Boolean getUseMicrophone() {
+        int id = this._radioGroup.getCheckedRadioButtonId();
+        return id == R.id.micIntentRadioButton ||
+                id == R.id.micDictationRadioButton ||
+                id == (R.id.micRadioButton - 1);
+    }
+    */
+    private Boolean getUseMicrophone() {
+        return true;
+    }
+
+
+    /**
+     * Gets a value indicating whether LUIS results are desired.
+     *
+     * @return true if LUIS results are to be returned otherwise, false.
+     */
+    /*
+    private Boolean getWantIntent() {
+        int id = this._radioGroup.getCheckedRadioButtonId();
+        return id == R.id.dataShortIntentRadioButton ||
+                id == R.id.micIntentRadioButton;
+    }
+    */
+
+    /**
+     * Gets the current speech recognition mode.
+     *
+     * @return The speech recognition mode.
+     */
+    private SpeechRecognitionMode getMode() {
+        return SpeechRecognitionMode.ShortPhrase;
+    }
+    /*
+    private SpeechRecognitionMode getMode() {
+        int id = this._radioGroup.getCheckedRadioButtonId();
+        if (id == R.id.micDictationRadioButton ||
+                id == R.id.dataLongRadioButton) {
+            return SpeechRecognitionMode.LongDictation;
+        }
+        return SpeechRecognitionMode.ShortPhrase;
+    }
+    */
+
+    /**
+     * Gets the default locale.
+     *
+     * @return The default locale.
+     */
+    private String getDefaultLocale() {
+        return "en-us";
+    }
+
+    /**
+     * Gets the short wave file path.
+     *
+     * @return The short wave file.
+     */
+    private String getShortWaveFile() {
+        return "whatstheweatherlike.wav";
+    }
+
+    /**
+     * Gets the long wave file path.
+     *
+     * @return The long wave file.
+     */
+    private String getLongWaveFile() {
+        return "batman.wav";
+    }
+
+    /**
+     * Handles the Click event of the _startButton control.
+     */
+    private void StartButton_Click(View arg0) {
+        searchText.setText("");
+
+        this.m_waitSeconds = this.getMode() == SpeechRecognitionMode.ShortPhrase ? 20 : 200;
+
+        this.LogRecognitionStart();
+        if (this.getUseMicrophone()) {
+            if (this.micClient == null) {
+                this.micClient = SpeechRecognitionServiceFactory.createMicrophoneClient(
+                        this,
+                        this.getMode(),
+                        this.getDefaultLocale(),
+                        this,
+                        this.getPrimaryKey());
+            }
+        }
+        this.micClient.startMicAndRecognition();
+    }
+
+
+    /**
+     * Logs the recognition start.
+     */
+    private void LogRecognitionStart() {
+        String recoSource;
+        if (this.getUseMicrophone()) {
+            recoSource = "microphone";
+        } else if (this.getMode() == SpeechRecognitionMode.ShortPhrase) {
+            recoSource = "short wav file";
+        } else {
+            recoSource = "long wav file";
+        }
+
+    }
+
+    private void SendAudioHelper(String filename) {
+        RecognitionTask doDataReco = new RecognitionTask(this.dataClient, this.getMode(), filename);
+        try {
+            doDataReco.execute().get(m_waitSeconds, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            doDataReco.cancel(true);
+            isReceivedResponse = FinalResponseStatus.Timeout;
+        }
+    }
+
+    public void onFinalResponseReceived(final RecognitionResult response) {
+        boolean isFinalDicationMessage = this.getMode() == SpeechRecognitionMode.LongDictation &&
+                (response.RecognitionStatus == RecognitionStatus.EndOfDictation ||
+                        response.RecognitionStatus == RecognitionStatus.DictationEndSilenceTimeout);
+        if (null != this.micClient && this.getUseMicrophone() && ((this.getMode() == SpeechRecognitionMode.ShortPhrase) || isFinalDicationMessage)) {
+            // we got the final result, so it we can end the mic reco.  No need to do this
+            // for dataReco, since we already called endAudio() on it as soon as we were done
+            // sending all the data.
+            this.micClient.endMicAndRecognition();
+        }
+
+        if (isFinalDicationMessage) {
+            this.isReceivedResponse = FinalResponseStatus.OK;
+        }
+
+
+
+        }
+
+    /**
+     * Called when a final response is received and its intent is parsed
+     */
+    public void onIntentReceived(final String payload) {
+    }
+
+    public void onPartialResponseReceived(final String response) {
+//        this.WriteLine("--- Partial result received by onPartialResponseReceived() ---");
+//        this.WriteLine(response);
+//        this.WriteLine();
+        searchText.setText(response);
+    }
+
+    public void onError(final int errorCode, final String response) {
+    }
+
+    /**
+     * Called when the microphone status has changed.
+     *
+     * @param recording The current recording state
+     */
+    public void onAudioEvent(boolean recording) {
+        if (!recording) {
+            this.micClient.endMicAndRecognition();
+        }
+    }
+
+
+
+
+    /*
+     * Speech recognition with data (for example from a file or audio source).
+     * The data is broken up into buffers and each buffer is sent to the Speech Recognition Service.
+     * No modification is done to the buffers, so the user can apply their
+     * own VAD (Voice Activation Detection) or Silence Detection
+     *
+     * @param dataClient
+     * @param recoMode
+     * @param filename
+     */
+    private class RecognitionTask extends AsyncTask<Void, Void, Void> {
+        DataRecognitionClient dataClient;
+        SpeechRecognitionMode recoMode;
+        String filename;
+
+        RecognitionTask(DataRecognitionClient dataClient, SpeechRecognitionMode recoMode, String filename) {
+            this.dataClient = dataClient;
+            this.recoMode = recoMode;
+            this.filename = filename;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            return null;
+        }
+
+
+
+    }
+    class MyAsyncTask extends AsyncTask<String, Integer, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                translatedText = Translate.execute(strings[0], Language.ENGLISH, Language.KOREAN);
+                Log.d("!!!", translatedText);
+            } catch (Exception e) {
+                Log.e("!!!", "!!!", e);
+            }
+            return true;
+        }
+    }
 }
+
