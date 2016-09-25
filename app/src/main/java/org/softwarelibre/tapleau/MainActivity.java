@@ -54,7 +54,8 @@ public class MainActivity extends AppCompatActivity
             HapticServiceAdapterEventListener listener =
                     HapticServiceAdapterEventListener.obtain(this);
             listener.addHandler(currentFragment);
-        } }
+        }
+    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {

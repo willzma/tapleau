@@ -96,12 +96,12 @@ public class LanguageFragment extends HapticFragment {
 
     @Override
     public void serviceAdapterWasCreated(Intent intent) {
-
+        System.out.println("Service adapter was successfully created");
     }
 
     @Override
     public void serviceAdapterIsConnecting(Intent intent) {
-
+        System.out.println("Service adapter is connecting");
     }
 
     @Override
@@ -111,12 +111,12 @@ public class LanguageFragment extends HapticFragment {
 
     @Override
     public void serviceAdapterIsDisconnecting(Intent intent) {
-
+        System.out.println("Service adapter is disconnecting");
     }
 
     @Override
     public void serviceAdapterIsDisconnected(Intent intent) {
-
+        System.out.println("Service adapter has successfully disconnected");
     }
 
     /**

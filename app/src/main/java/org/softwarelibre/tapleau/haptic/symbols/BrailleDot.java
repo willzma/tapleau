@@ -51,7 +51,7 @@ public class BrailleDot {
             mHapticSprite.setMaterial(mHapticMaterial);
             // Set the size and position of the haptic sprite to correspond to the view we created
             mHapticSprite.setSize(324, 317);
-            System.out.println(x + ", " + y);
+            System.out.println("The coordinates for the current dot is (" + x + ", " + y + ")");
             mHapticSprite.setPosition((int) x, (int) y);
             // Add the haptic sprite to the haptic view
             mHapticView.addSprite(mHapticSprite);

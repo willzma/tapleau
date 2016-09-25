@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import org.softwarelibre.tapleau.MainActivity;
 import org.softwarelibre.tapleau.R;
@@ -23,14 +23,9 @@ import org.softwarelibre.tapleau.haptic.symbols.BrailleDot;
  * create an instance of this fragment.
  */
 public class BrailleFragment extends HapticFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ENABLED_DOTS = "enabledDots";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private boolean[] enabledDots;
 
     public BrailleDot[][] circles = new BrailleDot[3][2];
 
@@ -46,12 +41,10 @@ public class BrailleFragment extends HapticFragment {
      *
      * @return A new instance of fragment BrailleFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static BrailleFragment newInstance(boolean[] enabledDots) {
         BrailleFragment fragment = new BrailleFragment();
         Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
+        args.putBooleanArray("ENABLED_DOTS", enabledDots);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,8 +53,7 @@ public class BrailleFragment extends HapticFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            enabledDots = getArguments().getBooleanArray(ENABLED_DOTS);
         }
     }
 
@@ -70,13 +62,6 @@ public class BrailleFragment extends HapticFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_braille, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -118,9 +103,13 @@ public class BrailleFragment extends HapticFragment {
         double col = 220.8;
         for (int i = 0; i < circles.length; i++) {
             for (int j = 0; j < circles[0].length; j++) {
-                String s = "button" + i + j;
-                circles[i][j] = new BrailleDot(this.getActivity(), getView().findViewById(getResources().
-                        getIdentifier(s, "id", MainActivity.PACKAGE_NAME)), col, row);
+                if (enabledDots[(i * 2) + j]) {
+                    String identifier = "button" + i + j;
+                    ImageView currentDotView = (ImageView) getView().findViewById(getResources().
+                            getIdentifier(identifier, "id", MainActivity.PACKAGE_NAME));
+                    circles[i][j] = new BrailleDot(this.getActivity(), currentDotView, col, row);
+                    currentDotView.setImageResource(R.drawable.black_circle_trans);
+                }
                 col += 768;
             }
 
