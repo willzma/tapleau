@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -130,7 +131,15 @@ public class BrailleFragment extends HapticFragment {
                     ImageView currentDotView = (ImageView) getView().findViewById(getResources().
                             getIdentifier(identifier, "id", MainActivity.PACKAGE_NAME));
                     circles[i][j] = new BrailleDot(this.getActivity(), currentDotView, col, row);
-                    currentDotView.setImageResource(R.drawable.black_circle_trans);
+                    currentDotView.setImageResource(R.drawable.graydot);
+
+                    currentDotView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            ((ImageView) v).setImageResource(R.drawable.bluedot);
+                            return true;
+                        }
+                    });
                 }
                 col += 768;
             }
