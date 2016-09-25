@@ -1,6 +1,5 @@
 package org.softwarelibre.tapleau;
 
-import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,14 +18,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
-import com.microsoft.bing.speech.SpeechClientStatus;
 import com.microsoft.cognitiveservices.speechrecognition.DataRecognitionClient;
 import com.microsoft.cognitiveservices.speechrecognition.ISpeechRecognitionServerEvents;
 import com.microsoft.cognitiveservices.speechrecognition.MicrophoneRecognitionClient;
@@ -80,11 +75,7 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
         final ImageButton button = (ImageButton) findViewById(R.id.imageButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
                 performLineAnimation1();
 
                 if(spinner.getSelectedItem().equals("Korean")) {
@@ -254,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
             @Override
             public void onAnimationEnd(Animation arg0) {
                 ImageView iv = ((ImageView) findViewById(R.id.imageView3));
-                iv.setVisibility(View.GONE);
+                iv.setVisibility(View.VISIBLE);
                 EditText edited = ((EditText) findViewById(R.id.editText2));
                 edited.setVisibility(View.INVISIBLE);
                 EditText tv = ((EditText) findViewById(R.id.editText));
