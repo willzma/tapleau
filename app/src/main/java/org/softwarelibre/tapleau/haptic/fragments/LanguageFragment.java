@@ -2,14 +2,29 @@ package org.softwarelibre.tapleau.haptic.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import org.softwarelibre.tapleau.R;
+import org.softwarelibre.tapleau.haptic.symbols.SymbolUtilities;
+
+import co.tanvas.haptics.service.adapter.HapticServiceAdapter;
+import co.tanvas.haptics.service.app.HapticApplication;
+import co.tanvas.haptics.service.model.HapticMaterial;
+import co.tanvas.haptics.service.model.HapticSprite;
+import co.tanvas.haptics.service.model.HapticTexture;
+import co.tanvas.haptics.service.model.HapticView;
 
 
 /**
@@ -21,14 +36,19 @@ import org.softwarelibre.tapleau.R;
  * create an instance of this fragment.
  */
 public class LanguageFragment extends HapticFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "syllable";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private HapticView mHapticView;
+    private HapticTexture mHapticTexture;
+    private HapticMaterial mHapticMaterial;
+    private HapticSprite mHapticSprite;
+
+    private String syllable;
+
+    public Bitmap foreground;
+    public Bitmap background;
+    public Bitmap hapticMap;
+    public ImageView iv;
 
     private OnFragmentInteractionListener mListener;
 
@@ -40,16 +60,13 @@ public class LanguageFragment extends HapticFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param syllable
      * @return A new instance of fragment LanguageFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static LanguageFragment newInstance(String param1, String param2) {
+    public static LanguageFragment newInstance(String syllable) {
         LanguageFragment fragment = new LanguageFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM1, syllable);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,9 +74,16 @@ public class LanguageFragment extends HapticFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Typeface myTypeFace = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Trebuchet.ttf");
+        foreground = SymbolUtilities.drawTextToBitmap(getActivity(), syllable, Color.rgb(160, 160, 160), -1);
+        background = SymbolUtilities.drawTextToBitmap(getActivity(), syllable, Color.rgb(21, 126, 251), -1);
+        hapticMap = SymbolUtilities.getHapticMap(getActivity(), syllable);
+        iv =  (ImageView) getView().findViewById(R.id.tableau);
+        //iv.setImageBitmap(foreground);
+        //iv.setImageBitmap(getHapticMap());
+
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            syllable = getArguments().getString(ARG_PARAM1);
         }
     }
 
@@ -106,7 +130,43 @@ public class LanguageFragment extends HapticFragment {
 
     @Override
     public void serviceAdapterIsConnected(Intent intent) {
+        System.out.println("Service adapter has successfully connected.");
 
+        HapticServiceAdapter serviceAdapter = HapticApplication.getHapticServiceAdapter();
+        try {
+            mHapticView = HapticView.create(serviceAdapter);
+            mHapticView.activate();
+
+            Display display = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+            int rotation = display.getRotation();
+            HapticView.Orientation orientation = HapticView.getOrientationFromAndroidDisplayRotation(rotation);
+            mHapticView.setOrientation(orientation);
+
+            Bitmap hapticBitmap = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.white_circle);
+            byte[] textureData = HapticTexture.createTextureDataFromBitmap(hapticBitmap);
+
+            mHapticTexture = HapticTexture.create(serviceAdapter);
+            int textureDataWidth = hapticBitmap.getRowBytes() / 4; // 4 channels, i.e., ARGB
+            int textureDataHeight = hapticBitmap.getHeight();
+            mHapticTexture.setSize(textureDataWidth, textureDataHeight);
+            mHapticTexture.setData(textureData);
+
+            // Create a haptic material with the created haptic texture
+            mHapticMaterial = HapticMaterial.create(serviceAdapter);
+            mHapticMaterial.setTexture(0, mHapticTexture);
+            // Create a haptic sprite with the haptic material
+            mHapticSprite = HapticSprite.create(serviceAdapter);
+            mHapticSprite.setMaterial(mHapticMaterial);
+            // Set the size and position of the haptic sprite to correspond to the view we created
+            mHapticSprite.setSize(324, 317);
+            mHapticSprite.setPosition(0, 512);
+            // Add the haptic sprite to the haptic view
+            mHapticView.addSprite(mHapticSprite);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        iv.setImageBitmap(foreground);
     }
 
     @Override
