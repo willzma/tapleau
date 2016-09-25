@@ -40,6 +40,7 @@
             android:layout_centerHorizontal="true"
             android:visibility="gone"
             android:textSize="20dp"
+            android:focusable="false"
             android:drawableLeft="@android:drawable/ic_btn_speak_now"
             android:singleLine="true"
             android:text="" />
