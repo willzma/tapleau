@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -43,9 +44,11 @@ import org.softwarelibre.tapleau.haptic.symbols.SymbolUtilities;
 import java.util.concurrent.TimeUnit;
 
 import co.tanvas.haptics.service.adapter.HapticServiceAdapterEventListener;
+import co.tanvas.haptics.service.err.HapticServiceAdapterException;
 
 public class MainActivity extends AppCompatActivity implements ISpeechRecognitionServerEvents, BrailleFragment.OnFragmentInteractionListener, LanguageFragment.OnFragmentInteractionListener {
 
+    public HapticServiceAdapterEventListener listener;
     public static String PACKAGE_NAME;
     public HapticFragment currentFragment;
     int m_waitSeconds = 0;
@@ -93,34 +96,58 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
                             searchText.setText("");
                             currentWord = translatedText;
                             currentLanguage = "Korean";
+                            //currentFragment = LanguageFragment.newInstance("음");
+                            //getFragmentManager().beginTransaction().add(R.id.fragment_container, currentFragment).commit(;
                         }
                     }.execute(searchText.getText().toString());
                 } else if (spinner.getSelectedItem().equals("Braille")) {
                     String s = searchText.getText().toString();
                     searchText.setHint(searchText.getText());
-                    searchText.setText("");
+                    searchText.setText(s);
                     Typeface myTypeFace = Typeface.createFromAsset(getAssets(), "fonts/braille.ttf");
                     currentWord = s;
                     currentLanguage = "Braille";
+                    //currentFragment = BrailleFragment.newInstance(true, true, true, true, true, true);
+                    //getFragmentManager().beginTransaction().add(R.id.fragment_container, currentFragment).commit(;
+
                 }
             }
         });
 
         final Button nextButton = (Button) findViewById(R.id.nextButton);
+        final FragmentTransaction transaction = getFragmentManager().beginTransaction();
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (wordPointer < currentWord.length()) {
                     switch(currentLanguage) {
                         case "Braille": {
+                            BrailleFragment bf = ((BrailleFragment) currentFragment);
+                            for (int i = 0; i < bf.circles.length; i++) {
+                                for (int j = 0; j < bf.circles[0].length; j++) {
+                                    bf.circles[i][j].destroy();
+                                }
+                            }
+                            listener.removeHandler(currentFragment);
+                            getFragmentManager().beginTransaction().remove(currentFragment).commit();
                             currentFragment = BrailleFragment.newInstance(SymbolUtilities.textToBraille(currentWord.charAt(wordPointer)));
-                            getSupportFragmentManager().beginTransaction()
-                                    .add(R.id.fragment_container, currentFragment).commit();
+                            getFragmentManager().beginTransaction().addToBackStack(null);
+                            getFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
+                            getFragmentManager().beginTransaction().show(currentFragment).commit();
                             wordPointer++;
                         }break;case "Korean": {
+                            LanguageFragment lf = ((LanguageFragment) currentFragment);
+                            try {
+                                lf.mHapticView.deactivate();
+                            } catch (HapticServiceAdapterException e) {
+                                e.printStackTrace();
+                            }
+                            listener.removeHandler(currentFragment);
+                            getFragmentManager().beginTransaction().remove(currentFragment).commit();
                             currentFragment = LanguageFragment.newInstance(String.valueOf(currentWord.charAt(wordPointer)));
-                            getSupportFragmentManager().beginTransaction()
-                                    .add(R.id.fragment_container, currentFragment).commit();
+                            getFragmentManager().beginTransaction().addToBackStack(null);
+                            getFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
+                            getFragmentManager().beginTransaction().show(currentFragment).commit();
                             wordPointer++;
                         }break;
                     }
@@ -134,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
                     layout1.setLayoutParams(lp);
                     layout2.setLayoutParams(lp2);
                     layout3.setLayoutParams(lp3);
+                    wordPointer = 0;
                 }
             }
         });
@@ -162,12 +190,9 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
                 return;
             }
 
-            // Create a new fragment to be placed in the activity layout
-            currentFragment = BrailleFragment.newInstance(true, true, true, true, true, false);
-
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, currentFragment).commit();
+            currentFragment = LanguageFragment.newInstance("칠");
+            transaction.add(R.id.fragment_container, currentFragment);
+            transaction.commit();
         }
     }
 
@@ -276,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
             // Register the activity as an event handler
-            HapticServiceAdapterEventListener listener =
+            listener =
                     HapticServiceAdapterEventListener.obtain(this);
             listener.addHandler(currentFragment);
         }

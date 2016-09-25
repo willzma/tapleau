@@ -111,6 +111,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="→"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="50dp"
             android:textAllCaps="true"
             android:textStyle="bold"/>
 

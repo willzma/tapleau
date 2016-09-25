@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 import co.tanvas.haptics.service.adapter.HapticServiceAdapter;
 import co.tanvas.haptics.service.app.HapticApplication;
+import co.tanvas.haptics.service.err.HapticServiceAdapterException;
 import co.tanvas.haptics.service.model.HapticMaterial;
 import co.tanvas.haptics.service.model.HapticSprite;
 import co.tanvas.haptics.service.model.HapticTexture;
@@ -17,7 +18,7 @@ import co.tanvas.haptics.service.model.HapticView;
 import org.softwarelibre.tapleau.R;
 
 public class BrailleDot {
-    private HapticView mHapticView;
+    public HapticView mHapticView;
     private HapticTexture mHapticTexture;
     private HapticMaterial mHapticMaterial;
     private HapticSprite mHapticSprite;
@@ -58,5 +59,17 @@ public class BrailleDot {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void destroy() {
+        try {
+            mHapticView.deactivate();
+        } catch (HapticServiceAdapterException e) {
+            e.printStackTrace();
+        }
+        mHapticView = null;
+        mHapticMaterial = null;
+        mHapticSprite = null;
+        mHapticTexture = null;
     }
 }

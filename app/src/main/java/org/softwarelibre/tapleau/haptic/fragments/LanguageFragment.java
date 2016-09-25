@@ -9,7 +9,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -40,7 +40,7 @@ import co.tanvas.haptics.service.model.HapticView;
 public class LanguageFragment extends HapticFragment {
     private static final String ARG_PARAM1 = "syllable";
 
-    private HapticView mHapticView;
+    public HapticView mHapticView;
     private HapticTexture mHapticTexture;
     private HapticMaterial mHapticMaterial;
     private HapticSprite mHapticSprite;
@@ -127,6 +127,19 @@ public class LanguageFragment extends HapticFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mHapticView = null;
+        mHapticMaterial = null;
+        mHapticSprite = null;
+        mHapticTexture = null;
+        foreground = null;
+        background = null;
+        hapticMap = null;
+        iv = null;
     }
 
     @Override

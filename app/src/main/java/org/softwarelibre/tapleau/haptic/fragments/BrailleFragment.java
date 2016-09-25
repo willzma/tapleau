@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -111,6 +111,14 @@ public class BrailleFragment extends HapticFragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        circles = null;
+        enabledDots = null;
+        mListener = null;
+    }
+
+    @Override
     public void serviceAdapterWasCreated(Intent intent) {
         System.out.println("Service adapter was successfully created");
     }
@@ -133,14 +141,6 @@ public class BrailleFragment extends HapticFragment {
                             getIdentifier(identifier, "id", MainActivity.PACKAGE_NAME));
                     circles[i][j] = new BrailleDot(this.getActivity(), currentDotView, col, row);
                     currentDotView.setImageResource(R.drawable.graydot);
-                    currentDotView.setOnDragListener(new View.OnDragListener() {
-
-                        @Override
-                        public boolean onDrag(View v, DragEvent event) {
-                            ((ImageView) v).setImageResource(R.drawable.bluedot);
-                            return false;
-                        }
-                    });
                     currentDotView.setOnTouchListener(new View.OnTouchListener() {
 
                         @Override
